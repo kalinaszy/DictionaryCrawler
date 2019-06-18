@@ -1,9 +1,8 @@
+from random import randint
+
 import requests
 from bs4 import BeautifulSoup
 
-#  page = requests.get("https://sensiblechinese.com/common-chinese-characters/")
-#  page = requests.get("http://www.mementoslangues.fr/Chinois/Sinogrammes/Table3000CaracteresChinois.pdf")
-#  page = requests.get("http://dataquestio.github.io/web-scraping-pages/simple.html")
 page = requests.get("http://hanzidb.org/character-list/by-frequency")
 page
 print(page.status_code)
@@ -34,47 +33,20 @@ def find_words(soup):
 
 def main():
     url = "http://hanzidb.org/character-list/by-frequency?page={}"
-    for i in range(10):
+    list_of_all_characters = []
+    for i in range(1, 10):
         soup = get_content(url.format(i))
-        print(find_words(soup))
+        words_list = find_words(soup)
+        for i in range(len(words_list)):
+            word = str(words_list[i])
+            char = word[0]
+            rest_def = word[1:]
+            random_answer = str(words_list[randint(1, len(words_list)-1)])
+            random_answer2 = str(words_list[randint(1, len(words_list)-1)])
+            final1 = random_answer[1:]
+            final2 = random_answer2[1:]
+            list_of_all_characters.append((char, rest_def, final1, final2))
+    print(list_of_all_characters)
+    return list_of_all_characters
 
 main()
-
-
-
-
-
-
-
-
-
-
-#print(soup.prettify())
-
-
-
-#print(list(soup.children))
-
-#print(soup.title)
-# print(soup.find_all('a'))
-# tr d a href znak
-# example = soup.find(text="Most common Chinese characters - ordered by frequency")
-# print(example)
-#
-#
-# import requests
-# from bs4 import BeautifulSoup
-#
-# url_pagination= "http://hanzidb.org/character-list/by-frequency"
-# r = requests.get(url_pagination)
-# soup = BeautifulSoup(r.content, "html.parser")
-#
-# page_url = "http://hanzidb.org/character-list/by-frequency?page={}"
-# last_page = soup.find('ul', class_='pagination').find('li', class_='next').a['href'].split('=')[1]
-# #last_page = soup.select_one('ul.pagination li.next a')['href'].split('=')[1] # with css selectors
-# dept_page_url = [page_url.format(i) for i in range(1, int(last_page)+1)]
-#
-# print(dept_page_url)
-#
-#
-#
