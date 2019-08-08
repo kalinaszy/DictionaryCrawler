@@ -9,7 +9,6 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-
 page = requests.get("http://hanzidb.org/character-list/by-frequency")
 page
 print(page.status_code)
@@ -41,7 +40,7 @@ def find_words(soup):
 def main():
     url = "http://hanzidb.org/character-list/by-frequency?page={}"
     list_of_all_characters = []
-    for i in range(1, 10):
+    for i in range(1, 5):
         soup = get_content(url.format(i))
         words_list = find_words(soup)
         for i in range(len(words_list)):
@@ -62,16 +61,18 @@ my_list = main()
 def get_file_name(rest_def):
     return hashlib.sha224(rest_def.encode()).hexdigest()+".jpg"
 
-outputs = {} #  naplenic go w petli, kluczem getfilename, w srodku ospathimage
-# pozniej dump json zapisac w json na dysku
-# pozniej a aplikacji komenda load images i paramtrem bd json (to bd django commands managmene)
+outputs = {} #  naplenic go w petli, kluczem getfilename, w srodku ospathimage????
 
 
 for character in my_list:
-    img = Image.new("RGB", size=(50,50))
+    img = Image.new("RGB", size=(80,80))
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("font.otf", 40)
+    font = ImageFont.truetype("font.otf", 70)
     draw.text((0, 0), character[0], (255,255,255), font=font)
     img.save(os.path.join("images", get_file_name(character[1])))
 
 
+
+# def convert_to_models(list_of_guesses):
+#     for character in my_list:
+#         Guess.objects.create
